@@ -46,6 +46,23 @@ func (c *Client) AlertDevices(userID string, devices []string, content Content) 
 	})
 }
 
+// SilentUser send silent notifications to a user
+func (c *Client) SilentUser(userID string, content Content) (Response, error) {
+	return c.POST("/silent", map[string]interface{}{
+		"user":    userID,
+		"content": content,
+	})
+}
+
+// SilentDevices send silent notifications to specific devices
+func (c *Client) SilentDevices(userID string, devices []string, content Content) (Response, error) {
+	return c.POST("/silent", map[string]interface{}{
+		"user":    userID,
+		"devices": devices,
+		"content": content,
+	})
+}
+
 // POST Make a POST request
 func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	var r Response
