@@ -16,6 +16,7 @@ const (
 
 // Client this is a client to work with the BT Push API
 type Client struct {
+	BaseURL    string
 	HTTPClient *http.Client
 	Token      string
 	Debug      bool
@@ -74,7 +75,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	var url *url.URL
 	var err error
 
-	url, _ = url.Parse(baseURL)
+	url, _ = url.Parse(c.BaseURL)
 	url.Path = path.Join(url.Path, route)
 	// JSON encoding
 	var jsonBytes []byte
@@ -114,6 +115,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 // New create an API client with usual defaults
 func New(token string) Client {
 	return Client{
+		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
 		Token:      token,
 		Debug:      false,
@@ -123,6 +125,7 @@ func New(token string) Client {
 // NewDebug create an API client with usual defaults and debugging turned on
 func NewDebug(token string) Client {
 	return Client{
+		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
 		Token:      token,
 		Debug:      true,
