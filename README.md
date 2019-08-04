@@ -16,11 +16,8 @@ import (
 )
 
 func main() {
-  client := sdk.Client{
-    HTTPClient: http.DefaultClient,
-    Token:      "some-token",
-  }
-  resp, err := client.SendSilentNotificationsUser("some-uuid", sdk.Content{
+  client := btpush.New("some-token")
+  resp, err := client.SendSilentNotificationsUser("some-uuid", btpush.Content{
     Title: "Sample Title",
     Body:  "Sample Body",
   })

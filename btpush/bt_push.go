@@ -110,3 +110,21 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	return r, nil
 }
+
+// New create an API client with usual defaults
+func New(token string) Client {
+	return Client{
+		HTTPClient: http.DefaultClient,
+		Token:      token,
+		Debug:      false,
+	}
+}
+
+// NewDebug create an API client with usual defaults and debugging turned on
+func NewDebug(token string) Client {
+	return Client{
+		HTTPClient: http.DefaultClient,
+		Token:      token,
+		Debug:      true,
+	}
+}
