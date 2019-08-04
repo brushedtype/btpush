@@ -12,16 +12,17 @@ import (
   "net/http"
   "net/url"
   "log"
+  "github.com/brushedtype/bt-push-go-sdk/sdk"
 )
 
 func main() {
   url, _ := url.Parse("https://brushedtype-push.herokuapp.com/v0.1")
-  client := Client{
+  client := sdk.Client{
     BaseURL:    url,
     HTTPClient: http.DefaultClient,
     Token:      "some-token",
   }
-  resp, err := client.SendSilentNotificationsUser("some-uuid", Content{
+  resp, err := client.SendSilentNotificationsUser("some-uuid", sdk.Content{
     Title: "Sample Title",
     Body:  "Sample Body",
   })
