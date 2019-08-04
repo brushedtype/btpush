@@ -12,8 +12,8 @@ import (
 // Client this is a client to work with the BT Push API
 type Client struct {
 	BaseURL    *url.URL
-	httpClient *http.Client
-	token      string
+	HTTPClient *http.Client
+	Token      string
 }
 
 // Content represents the data in a notification request
@@ -84,10 +84,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 		return r, err
 	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token))
 
 	// Response
-	resp, err := c.httpClient.Do(req)
+	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return r, err
 	}
@@ -96,14 +96,4 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	// JSON decoding
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	return r, nil
-}
-
-// NewClient create a new API client
-func NewClient(token string) *Client {
-	url, _ := url.Parse("https://brushedtype-push.herokuapp.com/v0.1")
-	return &Client{
-		BaseURL:    url,
-		httpClient: http.DefaultClient,
-		token:      token,
-	}
 }
