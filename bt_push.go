@@ -29,16 +29,16 @@ type Response struct {
 	Error  string `json:"error"`
 }
 
-// AlertUser send alert notifications to a user
-func (c *Client) AlertUser(userID string, content Content) (Response, error) {
+// SendAlertNotificationsUser send alert notifications to a user
+func (c *Client) SendAlertNotificationsUser(userID string, content Content) (Response, error) {
 	return c.POST("/alert", map[string]interface{}{
 		"user":    userID,
 		"content": content,
 	})
 }
 
-// AlertDevices send alert notifications to specific devices
-func (c *Client) AlertDevices(userID string, devices []string, content Content) (Response, error) {
+// SendAlertNotificationsDevices send alert notifications to specific devices
+func (c *Client) SendAlertNotificationsDevices(userID string, devices []string, content Content) (Response, error) {
 	return c.POST("/alert", map[string]interface{}{
 		"user":    userID,
 		"devices": devices,
@@ -46,16 +46,16 @@ func (c *Client) AlertDevices(userID string, devices []string, content Content) 
 	})
 }
 
-// SilentUser send silent notifications to a user
-func (c *Client) SilentUser(userID string, content Content) (Response, error) {
+// SendSilentNotificationsUser send silent notifications to a user
+func (c *Client) SendSilentNotificationsUser(userID string, content Content) (Response, error) {
 	return c.POST("/silent", map[string]interface{}{
 		"user":    userID,
 		"content": content,
 	})
 }
 
-// SilentDevices send silent notifications to specific devices
-func (c *Client) SilentDevices(userID string, devices []string, content Content) (Response, error) {
+// SendSilentNotificationsDevices send silent notifications to specific devices
+func (c *Client) SendSilentNotificationsDevices(userID string, devices []string, content Content) (Response, error) {
 	return c.POST("/silent", map[string]interface{}{
 		"user":    userID,
 		"devices": devices,
