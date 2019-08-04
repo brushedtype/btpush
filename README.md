@@ -17,7 +17,9 @@ import (
 
 func main() {
   // Initialise a client with an auth token
-  btPush := btpush.New("some-token")
+  btPush := btpush.New(btpush.Config{
+    Token: "some-token",
+  })
 
   // Send alert notifications to a user
   resp, err := btPush.SendAlertNotificationsUser("some-uuid", btpush.Content{
@@ -33,14 +35,16 @@ func main() {
   
   // Send silent notifications to a user's specific devices
   resp, err := btPush.SendSilentNotificationsUser("some-uuid", btpush.Content{
-    Title: "Sample Title",
-    Body:  "Sample Body",
+    Data: map[string]string {
+      "foo": "bar",
+    },
   })
 
   // Send silent notifications to a user's specific devices
   resp, err := btPush.SendSilentNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
-    Title: "Sample Title",
-    Body:  "Sample Body",
+    Data: map[string]string {
+      "foo": "bar",
+    },
   })
 }
 ```
