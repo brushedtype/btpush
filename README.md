@@ -16,9 +16,7 @@ import (
 )
 
 func main() {
-  url, _ := url.Parse("https://brushedtype-push.herokuapp.com/v0.1")
   client := sdk.Client{
-    BaseURL:    url,
     HTTPClient: http.DefaultClient,
     Token:      "some-token",
   }

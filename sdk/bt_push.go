@@ -10,9 +10,12 @@ import (
 	"path"
 )
 
+const (
+	baseURL = "https://brushedtype-push.herokuapp.com/v0.1"
+)
+
 // Client this is a client to work with the BT Push API
 type Client struct {
-	BaseURL    *url.URL
 	HTTPClient *http.Client
 	Token      string
 	Debug      bool
@@ -71,8 +74,8 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	var url *url.URL
 	var err error
 
-	url = c.BaseURL
-	url.Path = path.Join(c.BaseURL.Path, route)
+	url, _ = url.Parse(baseURL)
+	url.Path = path.Join(url.Path, route)
 	// JSON encoding
 	var jsonBytes []byte
 	jsonBytes, err = json.Marshal(payload)
