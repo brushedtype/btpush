@@ -16,17 +16,31 @@ import (
 )
 
 func main() {
-  client := btpush.New("some-token")
-  resp, err := client.SendSilentNotificationsUser("some-uuid", btpush.Content{
+  // Initialise a client with an auth token
+  btPush := btpush.New("some-token")
+
+  // Send alert notifications to a user
+  resp, err := btPush.SendAlertNotificationsUser("some-uuid", btpush.Content{
     Title: "Sample Title",
     Body:  "Sample Body",
   })
-  if err != nil {
-    log.Println(err)
-    return
-  }
-  if !resp.Status {
-    log.Printf("Error: %s\n", resp.Error)
-  }
+
+  // Send alert notifications to a user's specific devices
+  resp, err := btPush.SendAlertNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
+    Title: "Sample Title",
+    Body:  "Sample Body",
+  })
+  
+  // Send silent notifications to a user's specific devices
+  resp, err := btPush.SendSilentNotificationsUser("some-uuid", btpush.Content{
+    Title: "Sample Title",
+    Body:  "Sample Body",
+  })
+
+  // Send silent notifications to a user's specific devices
+  resp, err := btPush.SendSilentNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
+    Title: "Sample Title",
+    Body:  "Sample Body",
+  })
 }
 ```
