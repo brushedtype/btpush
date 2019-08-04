@@ -12,7 +12,7 @@ import (
   "net/http"
   "net/url"
   "log"
-  "github.com/brushedtype/bt-push-go-sdk/sdk"
+  "github.com/brushedtype/bt-push-go-sdk/btpush"
 )
 
 func main() {
