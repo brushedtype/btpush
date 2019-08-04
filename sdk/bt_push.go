@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"path"
@@ -14,6 +15,7 @@ type Client struct {
 	BaseURL    *url.URL
 	HTTPClient *http.Client
 	Token      string
+	Debug      bool
 }
 
 // Content represents the data in a notification request
@@ -78,6 +80,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 		return r, err
 	}
 
+	if c.Debug {
+		log.Printf("POST '%s' with %d-byte payload\n", url.String(), len(jsonBytes))
+	}
+
 	// Request creation
 	req, err := http.NewRequest("POST", url.String(), bytes.NewBuffer(jsonBytes))
 	if err != nil {
@@ -92,6 +98,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 		return r, err
 	}
 	defer resp.Body.Close()
+
+	if c.Debug {
+		log.Printf("HTTP %s\n", resp.Status)
+	}
 
 	// JSON decoding
 	err = json.NewDecoder(resp.Body).Decode(&r)
