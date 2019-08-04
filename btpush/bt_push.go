@@ -18,8 +18,13 @@ const (
 type Client struct {
 	BaseURL    string
 	HTTPClient *http.Client
-	Token      string
+	Config     Config
 	Debug      bool
+}
+
+// Config Represents a Client configuration
+type Config struct {
+	Token string
 }
 
 // Content represents the data in a notification request
@@ -94,7 +99,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 		return r, err
 	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Config.Token))
 
 	// Response
 	resp, err := c.HTTPClient.Do(req)
@@ -113,21 +118,21 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 }
 
 // New create an API client with usual defaults
-func New(token string) Client {
+func New(config Config) Client {
 	return Client{
 		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
-		Token:      token,
+		Config:     config,
 		Debug:      false,
 	}
 }
 
 // NewDebug create an API client with usual defaults and debugging turned on
-func NewDebug(token string) Client {
+func NewDebug(config Config) Client {
 	return Client{
 		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
-		Token:      token,
+		Config:     config,
 		Debug:      true,
 	}
 }

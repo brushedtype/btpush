@@ -45,7 +45,9 @@ func server() *httptest.Server {
 }
 
 func client(url, token string) Client {
-	client := New(token)
+	client := New(Config{
+		Token: token,
+	})
 	client.BaseURL = url
 	return client
 }
