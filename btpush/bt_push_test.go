@@ -74,12 +74,12 @@ func Test_Send_Alert_Notifications_User(t *testing.T) {
 		return
 	}
 	if !validResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
 	invalidResp, err := invalidClient.SendAlertNotificationsUser(invalidUserUUID, sampleAlertContent)
 	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 		return
 	}
 }
@@ -95,12 +95,12 @@ func Test_Send_Alert_Notifications_Devices(t *testing.T) {
 		return
 	}
 	if !validResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
 	invalidResp, err := invalidClient.SendAlertNotificationsDevices(validUserUUID, []string{sampleDeviceUUID}, sampleAlertContent)
 	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 		return
 	}
 }
@@ -116,12 +116,12 @@ func Test_Send_Silent_Notifications_User(t *testing.T) {
 		return
 	}
 	if !validResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
 	invalidResp, err := invalidClient.SendSilentNotificationsUser(invalidUserUUID, sampleSilentContent)
 	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 		return
 	}
 }
@@ -137,12 +137,12 @@ func Test_Send_Silent_Notifications_Devices(t *testing.T) {
 		return
 	}
 	if !validResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
 	invalidResp, err := invalidClient.SendSilentNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleSilentContent)
 	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Error)
+		t.Errorf("Error: %s\n", validResp.Message)
 		return
 	}
 }

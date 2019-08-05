@@ -36,8 +36,8 @@ type Content struct {
 
 // Response a response from the server
 type Response struct {
-	Status bool   `json:"status"`
-	Error  string `json:"error"`
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
 }
 
 // SendAlertNotificationsUser send alert notifications to a user
