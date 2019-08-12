@@ -24,41 +24,41 @@ func main() {
   // Send alert notifications to a user
   resp, err := btPush.SendAlertNotificationsUser("some-uuid", btpush.Content{
     Title:            "Sample Title",
-		Body:             "Sample Body",
-		Subtitle:         "Sample Subtitle",
-		Badge:            99,
-		Sound:            "sample.aif",
-		ContentAvailable: 1,
+    Body:             "Sample Body",
+    Subtitle:         "Sample Subtitle",
+    Badge:            99,
+    Sound:            "sample.aif",
+    ContentAvailable: 1,
   })
 
   // Send alert notifications to a user's specific devices
   resp, err := btPush.SendAlertNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
     Title:            "Sample Title",
-		Body:             "Sample Body",
-		Subtitle:         "Sample Subtitle",
-		Badge:            99,
-		Sound:            "sample.aif",
-		ContentAvailable: 1,
+    Body:             "Sample Body",
+    Subtitle:         "Sample Subtitle",
+    Badge:            99,
+    Sound:            "sample.aif",
+    ContentAvailable: 1,
   })
   
   // Send silent notifications to a user's specific devices
   resp, err := btPush.SendSilentNotificationsUser("some-uuid", btpush.Content{
     Data: map[string]string{
-			"foo": "bar",
-		},
-		Badge:          99,
-		MutableContent: 1,
-		Sound:          "sample.aif",
+      "foo": "bar",
+    },
+    Badge:          99,
+    MutableContent: 1,
+    Sound:          "sample.aif",
   })
 
   // Send silent notifications to a user's specific devices
   resp, err := btPush.SendSilentNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
     Data: map[string]string{
-			"foo": "bar",
-		},
-		Badge:          99,
-		MutableContent: 1,
-		Sound:          "sample.aif",
+      "foo": "bar",
+    },
+    Badge:          99,
+    MutableContent: 1,
+    Sound:          "sample.aif",
   })
 }
 ```
