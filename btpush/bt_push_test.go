@@ -21,14 +21,21 @@ const (
 
 var (
 	sampleAlertContent = Content{
-		Title: "Sample Title",
-		Body:  "Sample Body",
+		Title:            "Sample Title",
+		Body:             "Sample Body",
+		Subtitle:         "Sample Subtitle",
+		Badge:            99,
+		Sound:            "sample.aif",
+		ContentAvailable: 1,
 	}
 
 	sampleSilentContent = Content{
 		Data: map[string]string{
 			"foo": "bar",
 		},
+		Badge:          99,
+		MutableContent: 1,
+		Sound:          "sample.aif",
 	}
 )
 

@@ -29,9 +29,22 @@ type Config struct {
 
 // Content represents the data in a notification request
 type Content struct {
-	Title string      `json:"title"`
-	Body  string      `json:"body"`
-	Data  interface{} `json:"data"`
+	Data             interface{} `json:"data,omitempty"`
+	ContentAvailable int         `json:"content_available,omitempty"`
+	Badge            int         `json:"badge,omitempty"`
+	Category         string      `json:"category,omitempty"`
+	MutableContent   int         `json:"mutable_content,omitempty"`
+	ThreadID         string      `json:"thread_id,omitempty"`
+	Sound            interface{} `json:"sound,omitempty"`
+
+	// Alert
+	Title        string   `json:"title,omitempty"`
+	Body         string   `json:"body,omitempty"`
+	Subtitle     string   `json:"subtitle,omitempty"`
+	TitleLocArgs []string `json:"title_loc_args,omitempty"`
+	TitleLocKey  string   `json:"title_loc_key,omitempty"`
+	LocArgs      []string `json:"loc_args,omitempty"`
+	LocKey       string   `json:"loc_key,omitempty"`
 }
 
 // Response a response from the server
