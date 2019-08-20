@@ -52,7 +52,7 @@ func server() *httptest.Server {
 		if strings.Contains(string(payload), validUserUUID) {
 			fmt.Fprintln(w, `{"status": true}`)
 		} else {
-			fmt.Fprintln(w, `{"status": false, "error": "oh no!"}`)
+			fmt.Fprintln(w, `{"status": false, "error": {"type": "apns_error", "message": "Some APNS Error"}}`)
 		}
 	}))
 }
@@ -94,15 +94,11 @@ func Test_Send_Alert_Notifications_User(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := validClient.SendAlertNotificationsUser(invalidUserUUID, sampleAlertContent)
-	t.Errorf("%+v\n", invalidResp)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if invalidResp.Status {
-		t.Error("Error: unexpected Status=true")
-		return
+	_, err = validClient.SendAlertNotificationsUser(invalidUserUUID, sampleAlertContent)
+	if err == nil {
+		t.Error("Error: expected error")
+	} else if err.Type != ErrorTypeAPNSError {
+		t.Error("Error: expected APNS error", err)
 	}
 }
 
@@ -120,14 +116,11 @@ func Test_Send_Alert_Notifications_Devices(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := validClient.SendAlertNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleAlertContent)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if invalidResp.Status {
-		t.Error("Error: unexpected Status=true")
-		return
+	_, err = validClient.SendAlertNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleAlertContent)
+	if err == nil {
+		t.Error("Error: expected error")
+	} else if err.Type != ErrorTypeAPNSError {
+		t.Error("Error: expected APNS error", err)
 	}
 }
 
@@ -145,14 +138,11 @@ func Test_Send_Silent_Notifications_User(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := validClient.SendSilentNotificationsUser(invalidUserUUID, sampleSilentContent)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if invalidResp.Status {
-		t.Error("Error: unexpected Status=true")
-		return
+	_, err = validClient.SendSilentNotificationsUser(invalidUserUUID, sampleSilentContent)
+	if err == nil {
+		t.Error("Error: expected error")
+	} else if err.Type != ErrorTypeAPNSError {
+		t.Error("Error: expected APNS error", err)
 	}
 }
 
@@ -170,13 +160,10 @@ func Test_Send_Silent_Notifications_Devices(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := validClient.SendSilentNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleSilentContent)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if invalidResp.Status {
-		t.Error("Error: unexpected Status=true")
-		return
+	_, err = validClient.SendSilentNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleSilentContent)
+	if err == nil {
+		t.Error("Error: expected error")
+	} else if err.Type != ErrorTypeAPNSError {
+		t.Error("Error: expected APNS error", err)
 	}
 }

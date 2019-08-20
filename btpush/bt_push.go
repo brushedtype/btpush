@@ -51,10 +51,21 @@ type Content struct {
 type Response struct {
 	Status  bool   `json:"status"`
 	Message string `json:"message"`
+	Error   *Error `json:"error"`
+}
+
+// ClientError represents an error in the client or response
+type ClientError struct {
+	message string
+	Type    ErrorType
+}
+
+func (r ClientError) Error() string {
+	return r.message
 }
 
 // SendAlertNotificationsUser send alert notifications to a user
-func (c *Client) SendAlertNotificationsUser(userID string, content Content) (Response, error) {
+func (c *Client) SendAlertNotificationsUser(userID string, content Content) (Response, *ClientError) {
 	return c.POST("/alert", map[string]interface{}{
 		"user":    userID,
 		"content": content,
@@ -62,7 +73,7 @@ func (c *Client) SendAlertNotificationsUser(userID string, content Content) (Res
 }
 
 // SendAlertNotificationsDevices send alert notifications to specific devices
-func (c *Client) SendAlertNotificationsDevices(userID string, devices []string, content Content) (Response, error) {
+func (c *Client) SendAlertNotificationsDevices(userID string, devices []string, content Content) (Response, *ClientError) {
 	return c.POST("/alert", map[string]interface{}{
 		"user":    userID,
 		"devices": devices,
@@ -71,7 +82,7 @@ func (c *Client) SendAlertNotificationsDevices(userID string, devices []string, 
 }
 
 // SendSilentNotificationsUser send silent notifications to a user
-func (c *Client) SendSilentNotificationsUser(userID string, content Content) (Response, error) {
+func (c *Client) SendSilentNotificationsUser(userID string, content Content) (Response, *ClientError) {
 	return c.POST("/silent", map[string]interface{}{
 		"user":    userID,
 		"content": content,
@@ -79,7 +90,7 @@ func (c *Client) SendSilentNotificationsUser(userID string, content Content) (Re
 }
 
 // SendSilentNotificationsDevices send silent notifications to specific devices
-func (c *Client) SendSilentNotificationsDevices(userID string, devices []string, content Content) (Response, error) {
+func (c *Client) SendSilentNotificationsDevices(userID string, devices []string, content Content) (Response, *ClientError) {
 	return c.POST("/silent", map[string]interface{}{
 		"user":    userID,
 		"devices": devices,
@@ -88,7 +99,7 @@ func (c *Client) SendSilentNotificationsDevices(userID string, devices []string,
 }
 
 // POST Make a POST request
-func (c *Client) POST(route string, payload interface{}) (Response, error) {
+func (c *Client) POST(route string, payload interface{}) (Response, *ClientError) {
 	var r Response
 	var url *url.URL
 	var err error
@@ -99,7 +110,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	var jsonBytes []byte
 	jsonBytes, err = json.Marshal(payload)
 	if err != nil {
-		return r, err
+		return r, &ClientError{
+			Type:    ErrorTypeOther,
+			message: err.Error(),
+		}
 	}
 
 	if c.Debug {
@@ -109,7 +123,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	// Request creation
 	req, err := http.NewRequest("POST", url.String(), bytes.NewBuffer(jsonBytes))
 	if err != nil {
-		return r, err
+		return r, &ClientError{
+			Type:    ErrorTypeOther,
+			message: err.Error(),
+		}
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Config.Token))
@@ -117,12 +134,18 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	// Response
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
-		return r, err
+		return r, &ClientError{
+			Type:    ErrorTypeOther,
+			message: err.Error(),
+		}
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusIMUsed {
-		return r, fmt.Errorf("HTTP %s", resp.Status)
+		return r, &ClientError{
+			Type:    ErrorTypeOther,
+			message: fmt.Sprintf("HTTP %s", resp.Status),
+		}
 	}
 
 	if c.Debug {
@@ -131,7 +154,18 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 
 	// JSON decoding
 	err = json.NewDecoder(resp.Body).Decode(&r)
-	return r, err
+	if err != nil {
+		return r, &ClientError{
+			Type:    ErrorTypeOther,
+			message: err.Error(),
+		}
+	} else if r.Error != nil {
+		return r, &ClientError{
+			Type:    r.Error.Type,
+			message: r.Error.Message,
+		}
+	}
+	return r, nil
 }
 
 // New create an API client with usual defaults
