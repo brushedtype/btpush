@@ -31,6 +31,20 @@ func main() {
     ContentAvailable: 1,
   })
 
+  // Error handling
+  if err != nil {
+    log.Println(err)
+
+    switch err.Type {
+      case btpush.ErrorTypeAPNSError:
+        log.Println("APNS is experiencing issues")
+        break
+      default:
+        log.Println("Other issues")
+        break
+    }
+  }
+
   // Send alert notifications to a user's specific devices
   resp, err := btPush.SendAlertNotificationsDevices("some-uuid", []string{"some-device-uuid"}, btpush.Content{
     Title:            "Sample Title",
