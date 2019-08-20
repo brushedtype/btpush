@@ -71,7 +71,7 @@ func setup() (*httptest.Server, Client, Client) {
 }
 
 func Test_Send_Alert_Notifications_User(t *testing.T) {
-	server, validClient, invalidClient := setup()
+	server, validClient, _ := setup()
 	defer server.Close()
 
 	// Success
@@ -84,15 +84,20 @@ func Test_Send_Alert_Notifications_User(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := invalidClient.SendAlertNotificationsUser(invalidUserUUID, sampleAlertContent)
-	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Message)
+	invalidResp, err := validClient.SendAlertNotificationsUser(invalidUserUUID, sampleAlertContent)
+	t.Errorf("%+v\n", invalidResp)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if invalidResp.Status {
+		t.Error("Error: unexpected Status=true")
 		return
 	}
 }
 
 func Test_Send_Alert_Notifications_Devices(t *testing.T) {
-	server, validClient, invalidClient := setup()
+	server, validClient, _ := setup()
 	defer server.Close()
 
 	// Success
@@ -105,15 +110,19 @@ func Test_Send_Alert_Notifications_Devices(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := invalidClient.SendAlertNotificationsDevices(validUserUUID, []string{sampleDeviceUUID}, sampleAlertContent)
-	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Message)
+	invalidResp, err := validClient.SendAlertNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleAlertContent)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if invalidResp.Status {
+		t.Error("Error: unexpected Status=true")
 		return
 	}
 }
 
 func Test_Send_Silent_Notifications_User(t *testing.T) {
-	server, validClient, invalidClient := setup()
+	server, validClient, _ := setup()
 	defer server.Close()
 
 	// Success
@@ -126,15 +135,19 @@ func Test_Send_Silent_Notifications_User(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := invalidClient.SendSilentNotificationsUser(invalidUserUUID, sampleSilentContent)
-	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Message)
+	invalidResp, err := validClient.SendSilentNotificationsUser(invalidUserUUID, sampleSilentContent)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if invalidResp.Status {
+		t.Error("Error: unexpected Status=true")
 		return
 	}
 }
 
 func Test_Send_Silent_Notifications_Devices(t *testing.T) {
-	server, validClient, invalidClient := setup()
+	server, validClient, _ := setup()
 	defer server.Close()
 
 	// Success
@@ -147,9 +160,13 @@ func Test_Send_Silent_Notifications_Devices(t *testing.T) {
 		t.Errorf("Error: %s\n", validResp.Message)
 	}
 
-	invalidResp, err := invalidClient.SendSilentNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleSilentContent)
-	if err == nil && invalidResp.Status {
-		t.Errorf("Error: %s\n", validResp.Message)
+	invalidResp, err := validClient.SendSilentNotificationsDevices(invalidUserUUID, []string{sampleDeviceUUID}, sampleSilentContent)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if invalidResp.Status {
+		t.Error("Error: unexpected Status=true")
 		return
 	}
 }
