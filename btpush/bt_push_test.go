@@ -70,6 +70,16 @@ func setup() (*httptest.Server, Client, Client) {
 	return server, client(server.URL, validToken), client(server.URL, invalidToken)
 }
 
+func Test_Invalid_Token(t *testing.T) {
+	server, _, invalidClient := setup()
+	defer server.Close()
+
+	_, err := invalidClient.SendAlertNotificationsUser(validUserUUID, sampleAlertContent)
+	if err == nil {
+		t.Error("Expected error when making request with invalid token")
+	}
+}
+
 func Test_Send_Alert_Notifications_User(t *testing.T) {
 	server, validClient, _ := setup()
 	defer server.Close()

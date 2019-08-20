@@ -121,6 +121,10 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusIMUsed {
+		return r, fmt.Errorf("HTTP %s", resp.Status)
+	}
+
 	if c.Debug {
 		log.Printf("HTTP %s\n", resp.Status)
 	}
