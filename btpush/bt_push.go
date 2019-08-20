@@ -127,7 +127,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, error) {
 
 	// JSON decoding
 	err = json.NewDecoder(resp.Body).Decode(&r)
-	return r, nil
+	return r, err
 }
 
 // New create an API client with usual defaults
