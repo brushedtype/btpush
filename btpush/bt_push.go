@@ -117,7 +117,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, *ClientError
 	}
 
 	if c.Debug {
-		log.Printf("POST '%s' with %d-byte payload\n", url.String(), len(jsonBytes))
+		log.Printf("POST '%s' with %d-byte payload: %+v\n", url.String(), len(jsonBytes), string(jsonBytes))
 	}
 
 	// Request creation
