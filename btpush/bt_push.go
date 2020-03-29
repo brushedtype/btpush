@@ -169,8 +169,8 @@ func (c *Client) POST(route string, payload interface{}) (Response, *ClientError
 }
 
 // New create an API client with usual defaults
-func New(config Config) Client {
-	return Client{
+func New(config Config) *Client {
+	return &Client{
 		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
 		Config:     config,
@@ -179,8 +179,8 @@ func New(config Config) Client {
 }
 
 // NewDebug create an API client with usual defaults and debugging turned on
-func NewDebug(config Config) Client {
-	return Client{
+func NewDebug(config Config) *Client {
+	return &Client{
 		BaseURL:    baseURL,
 		HTTPClient: http.DefaultClient,
 		Config:     config,
