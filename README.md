@@ -3,7 +3,7 @@ This is a Go library to interact with the BT Push backend.
 
 ### Installation
 ```shell
-go get github.com/brushedtype/bt-push-go-sdk
+go get github.com/brushedtype/btpush
 ```
 
 ### Example
@@ -13,7 +13,7 @@ import (
   "net/url"
   "log"
 
-  "github.com/brushedtype/bt-push-go-sdk"
+  "github.com/brushedtype/btpush"
 )
 
 func main() {
