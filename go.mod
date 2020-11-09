@@ -1,3 +1,3 @@
-module github.com/brushedtype/bt-push-go-sdk/btpush
+module github.com/brushedtype/bt-push-go-sdk
 
 go 1.12
