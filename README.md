@@ -3,7 +3,7 @@ This is a Go library to interact with the BT Push backend.
 
 ### Installation
 ```shell
-go get github.com/brushedtype/bt-push-go-sdk/btpush
+go get github.com/brushedtype/bt-push-go-sdk
 ```
 
 ### Example
@@ -12,7 +12,8 @@ import (
   "net/http"
   "net/url"
   "log"
-  "github.com/brushedtype/bt-push-go-sdk/btpush"
+
+  "github.com/brushedtype/bt-push-go-sdk"
 )
 
 func main() {
@@ -54,7 +55,7 @@ func main() {
     Sound:            "sample.aif",
     ContentAvailable: 1,
   })
-  
+
   // Send silent notifications to a user's specific devices
   resp, err := btPush.SendSilentNotificationsUser("some-uuid", btpush.Content{
     Data: map[string]string{
