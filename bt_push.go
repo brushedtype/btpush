@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"time"
 )
 
 const (
@@ -36,6 +37,7 @@ type Content struct {
 	MutableContent   int         `json:"mutable_content,omitempty"`
 	ThreadID         string      `json:"thread_id,omitempty"`
 	Sound            interface{} `json:"sound,omitempty"`
+	Expiration       time.Time   `json:"expiration,omitempty"`
 
 	// Alert
 	Title        string   `json:"title,omitempty"`
