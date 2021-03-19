@@ -143,13 +143,6 @@ func (c *Client) POST(route string, payload interface{}) (Response, *ClientError
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusIMUsed {
-		return r, &ClientError{
-			Type:    ErrorTypeOther,
-			message: fmt.Sprintf("HTTP %s", resp.Status),
-		}
-	}
-
 	if c.Debug {
 		log.Printf("HTTP %s\n", resp.Status)
 	}
@@ -167,6 +160,7 @@ func (c *Client) POST(route string, payload interface{}) (Response, *ClientError
 			message: r.Error.Message,
 		}
 	}
+
 	return r, nil
 }
 
