@@ -28,16 +28,23 @@ type Config struct {
 	Token string
 }
 
+const (
+	TimeSensitiveInturruptionLevel = "time-sensitive"
+	ActiveInterruptionLevel        = "active"
+	PassiveInterruptionLevel       = "passive"
+)
+
 // Content represents the data in a notification request
 type Content struct {
-	Data             interface{} `json:"data,omitempty"`
-	ContentAvailable int         `json:"content_available,omitempty"`
-	Badge            int         `json:"badge,omitempty"`
-	Category         string      `json:"category,omitempty"`
-	MutableContent   int         `json:"mutable_content,omitempty"`
-	ThreadID         string      `json:"thread_id,omitempty"`
-	Sound            interface{} `json:"sound,omitempty"`
-	Expiration       time.Time   `json:"expiration,omitempty"`
+	Data              interface{} `json:"data,omitempty"`
+	ContentAvailable  int         `json:"content_available,omitempty"`
+	InterruptionLevel string      `json:"interruption-level,omitempty"`
+	Badge             int         `json:"badge,omitempty"`
+	Category          string      `json:"category,omitempty"`
+	MutableContent    int         `json:"mutable_content,omitempty"`
+	ThreadID          string      `json:"thread_id,omitempty"`
+	Sound             interface{} `json:"sound,omitempty"`
+	Expiration        time.Time   `json:"expiration,omitempty"`
 
 	// Alert
 	Title        string   `json:"title,omitempty"`
